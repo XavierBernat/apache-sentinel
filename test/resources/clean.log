@@ -1,0 +1,109 @@
+# Apache-Sentinel Clean Log File
+# This file contains normal, legitimate traffic for baseline testing
+# Format: Apache Combined Log Format
+
+# === TYPICAL WEBSITE TRAFFIC ===
+192.168.1.100 - - [14/Sep/2025:09:00:01 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.100 - - [14/Sep/2025:09:00:02 +0000] "GET /css/bootstrap.min.css HTTP/1.1" 200 23456 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.100 - - [14/Sep/2025:09:00:02 +0000] "GET /js/jquery.min.js HTTP/1.1" 200 87234 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.100 - - [14/Sep/2025:09:00:03 +0000] "GET /images/logo.png HTTP/1.1" 200 15234 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.100 - - [14/Sep/2025:09:00:03 +0000] "GET /favicon.ico HTTP/1.1" 200 1150 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === MOBILE USERS ===
+172.20.10.5 - - [14/Sep/2025:09:01:15 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+172.20.10.5 - - [14/Sep/2025:09:01:16 +0000] "GET /css/mobile.css HTTP/1.1" 200 8234 "http://example.com/" "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+172.20.10.6 - - [14/Sep/2025:09:01:45 +0000] "GET /products HTTP/1.1" 200 34521 "-" "Mozilla/5.0 (Linux; Android 13; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36"
+172.20.10.7 - - [14/Sep/2025:09:02:03 +0000] "GET /about HTTP/1.1" 200 5432 "http://example.com/" "Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
+
+# === API REQUESTS ===
+10.0.1.50 - - [14/Sep/2025:09:05:00 +0000] "GET /api/v1/products HTTP/1.1" 200 45678 "-" "axios/1.4.0"
+10.0.1.50 - - [14/Sep/2025:09:05:01 +0000] "GET /api/v1/products/123 HTTP/1.1" 200 2345 "-" "axios/1.4.0"
+10.0.1.51 - - [14/Sep/2025:09:05:15 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 512 "-" "PostmanRuntime/7.32.3"
+10.0.1.51 - - [14/Sep/2025:09:05:16 +0000] "GET /api/v1/user/profile HTTP/1.1" 200 1234 "-" "PostmanRuntime/7.32.3"
+10.0.1.52 - - [14/Sep/2025:09:05:30 +0000] "PUT /api/v1/user/settings HTTP/1.1" 200 128 "-" "insomnia/2023.5.8"
+10.0.1.53 - - [14/Sep/2025:09:05:45 +0000] "DELETE /api/v1/cart/item/456 HTTP/1.1" 204 0 "-" "RestClient/2.0"
+
+# === FORM SUBMISSIONS ===
+192.168.2.10 - - [14/Sep/2025:09:10:00 +0000] "GET /contact HTTP/1.1" 200 3456 "http://example.com/about" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.2.10 - - [14/Sep/2025:09:10:30 +0000] "POST /contact/submit HTTP/1.1" 302 0 "http://example.com/contact" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.2.10 - - [14/Sep/2025:09:10:31 +0000] "GET /thank-you HTTP/1.1" 200 2341 "http://example.com/contact/submit" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === E-COMMERCE ACTIVITY ===
+172.16.0.20 - user123 [14/Sep/2025:09:15:00 +0000] "GET /shop/category/electronics HTTP/1.1" 200 45678 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+172.16.0.20 - user123 [14/Sep/2025:09:15:15 +0000] "GET /product/laptop-model-x HTTP/1.1" 200 8923 "http://example.com/shop/category/electronics" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+172.16.0.20 - user123 [14/Sep/2025:09:15:20 +0000] "POST /cart/add HTTP/1.1" 200 234 "http://example.com/product/laptop-model-x" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+172.16.0.20 - user123 [14/Sep/2025:09:15:25 +0000] "GET /cart HTTP/1.1" 200 3456 "http://example.com/product/laptop-model-x" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+172.16.0.20 - user123 [14/Sep/2025:09:15:45 +0000] "GET /checkout HTTP/1.1" 200 4567 "http://example.com/cart" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+172.16.0.20 - user123 [14/Sep/2025:09:16:30 +0000] "POST /checkout/process HTTP/1.1" 200 345 "http://example.com/checkout" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+
+# === SEARCH ENGINE BOTS (Legitimate) ===
+66.249.66.1 - - [14/Sep/2025:09:20:00 +0000] "GET /robots.txt HTTP/1.1" 200 234 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+66.249.66.1 - - [14/Sep/2025:09:20:01 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+66.249.66.1 - - [14/Sep/2025:09:20:05 +0000] "GET /sitemap.xml HTTP/1.1" 200 5678 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+40.77.167.1 - - [14/Sep/2025:09:21:00 +0000] "GET /robots.txt HTTP/1.1" 200 234 "-" "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)"
+40.77.167.1 - - [14/Sep/2025:09:21:01 +0000] "GET /products HTTP/1.1" 200 34521 "-" "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)"
+
+# === BLOG READING PATTERN ===
+203.0.113.25 - - [14/Sep/2025:09:25:00 +0000] "GET /blog HTTP/1.1" 200 23456 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.25 - - [14/Sep/2025:09:25:10 +0000] "GET /blog/2025/09/new-product-launch HTTP/1.1" 200 8934 "http://example.com/blog" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.25 - - [14/Sep/2025:09:27:45 +0000] "GET /blog/2025/08/company-update HTTP/1.1" 200 7823 "http://example.com/blog" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.25 - - [14/Sep/2025:09:29:20 +0000] "POST /blog/comment HTTP/1.1" 201 128 "http://example.com/blog/2025/09/new-product-launch" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === FILE DOWNLOADS ===
+198.51.100.40 - - [14/Sep/2025:09:30:00 +0000] "GET /downloads/catalog.pdf HTTP/1.1" 200 234567 "http://example.com/products" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+198.51.100.41 - - [14/Sep/2025:09:30:15 +0000] "GET /downloads/manual.pdf HTTP/1.1" 200 567890 "http://example.com/support" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15"
+198.51.100.42 - - [14/Sep/2025:09:30:30 +0000] "GET /downloads/whitepaper.docx HTTP/1.1" 200 123456 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0"
+
+# === AJAX/XHR REQUESTS ===
+10.10.10.10 - - [14/Sep/2025:09:35:00 +0000] "GET /api/notifications HTTP/1.1" 200 234 "http://example.com/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+10.10.10.10 - - [14/Sep/2025:09:35:01 +0000] "GET /api/search/suggestions?q=laptop HTTP/1.1" 200 456 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+10.10.10.11 - - [14/Sep/2025:09:35:15 +0000] "POST /api/analytics/event HTTP/1.1" 204 0 "http://example.com/products" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === ADMIN AREA (Legitimate Access) ===
+192.168.1.2 - admin [14/Sep/2025:09:40:00 +0000] "GET /admin/dashboard HTTP/1.1" 200 12345 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.2 - admin [14/Sep/2025:09:40:05 +0000] "GET /admin/users HTTP/1.1" 200 23456 "http://example.com/admin/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.2 - admin [14/Sep/2025:09:40:20 +0000] "GET /admin/reports/sales HTTP/1.1" 200 34567 "http://example.com/admin/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.1.2 - admin [14/Sep/2025:09:40:35 +0000] "POST /admin/settings/update HTTP/1.1" 200 128 "http://example.com/admin/settings" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === 404 ERRORS (Normal) ===
+172.31.0.100 - - [14/Sep/2025:09:45:00 +0000] "GET /old-page HTTP/1.1" 404 234 "http://google.com/search?q=example+old+page" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+172.31.0.101 - - [14/Sep/2025:09:45:15 +0000] "GET /wp-content/uploads/2020/image.jpg HTTP/1.1" 404 234 "-" "Mozilla/5.0 (compatible; Googlebot-Image/1.0; +http://www.google.com/bot.html)"
+172.31.0.102 - - [14/Sep/2025:09:45:30 +0000] "GET /apple-touch-icon.png HTTP/1.1" 404 234 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+
+# === REDIRECTS ===
+203.0.113.50 - - [14/Sep/2025:09:50:00 +0000] "GET /old-url HTTP/1.1" 301 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.50 - - [14/Sep/2025:09:50:00 +0000] "GET /new-url HTTP/1.1" 200 5678 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.51 - - [14/Sep/2025:09:50:15 +0000] "GET /blog/ HTTP/1.1" 301 0 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0"
+203.0.113.51 - - [14/Sep/2025:09:50:15 +0000] "GET /blog HTTP/1.1" 200 23456 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0"
+
+# === MONITORING/HEALTH CHECKS ===
+10.0.0.1 - - [14/Sep/2025:09:55:00 +0000] "GET /health HTTP/1.1" 200 15 "-" "Amazon-Route53-Health-Check-Service"
+10.0.0.1 - - [14/Sep/2025:09:55:30 +0000] "GET /health HTTP/1.1" 200 15 "-" "Amazon-Route53-Health-Check-Service"
+10.0.0.2 - - [14/Sep/2025:09:56:00 +0000] "GET /status HTTP/1.1" 200 123 "-" "Uptime-Robot/2.0"
+10.0.0.3 - - [14/Sep/2025:09:56:30 +0000] "HEAD / HTTP/1.1" 200 0 "-" "Pingdom.com_bot_version_1.4"
+
+# === VARIOUS USER AGENTS ===
+192.168.3.30 - - [14/Sep/2025:10:00:00 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.47"
+192.168.3.31 - - [14/Sep/2025:10:00:15 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (X11; CrOS x86_64 14541.0.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+192.168.3.32 - - [14/Sep/2025:10:00:30 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+192.168.3.33 - - [14/Sep/2025:10:00:45 +0000] "GET / HTTP/1.1" 200 12453 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15"
+
+# === REFERRER TRAFFIC ===
+198.51.100.60 - - [14/Sep/2025:10:05:00 +0000] "GET /article/best-practices HTTP/1.1" 200 7890 "https://www.google.com/search?q=best+practices+web+development" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+198.51.100.61 - - [14/Sep/2025:10:05:15 +0000] "GET /products/special-offer HTTP/1.1" 200 4567 "https://www.facebook.com/" "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+198.51.100.62 - - [14/Sep/2025:10:05:30 +0000] "GET /blog/tutorial HTTP/1.1" 200 8901 "https://www.reddit.com/r/programming/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+198.51.100.63 - - [14/Sep/2025:10:05:45 +0000] "GET /company/careers HTTP/1.1" 200 5678 "https://www.linkedin.com/feed/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === SESSION PATTERNS ===
+172.16.5.10 - user456 [14/Sep/2025:10:10:00 +0000] "GET /account/profile HTTP/1.1" 200 3456 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+172.16.5.10 - user456 [14/Sep/2025:10:10:05 +0000] "GET /account/orders HTTP/1.1" 200 4567 "http://example.com/account/profile" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+172.16.5.10 - user456 [14/Sep/2025:10:10:20 +0000] "GET /account/settings HTTP/1.1" 200 2345 "http://example.com/account/orders" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+172.16.5.10 - user456 [14/Sep/2025:10:10:45 +0000] "POST /account/settings/update HTTP/1.1" 200 128 "http://example.com/account/settings" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+172.16.5.10 - user456 [14/Sep/2025:10:11:00 +0000] "GET /logout HTTP/1.1" 302 0 "http://example.com/account/settings" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# === CDN/ASSET REQUESTS ===
+203.0.113.70 - - [14/Sep/2025:10:15:00 +0000] "GET /assets/fonts/roboto.woff2 HTTP/1.1" 200 12345 "http://example.com/css/main.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.71 - - [14/Sep/2025:10:15:01 +0000] "GET /assets/images/hero-banner.webp HTTP/1.1" 200 234567 "http://example.com/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+203.0.113.72 - - [14/Sep/2025:10:15:02 +0000] "GET /assets/videos/intro.mp4 HTTP/1.1" 206 567890 "http://example.com/about" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+# End of clean log file
